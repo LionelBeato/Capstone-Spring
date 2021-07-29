@@ -53,20 +53,16 @@ public class SecruityConfiguration extends WebSecurityConfigurerAdapter {
                 .userInfoEndpoint()
                 .userService(oAuth2UserService)
                 .and()
-                .successHandler(new AuthenticationSuccessHandler() {
-                    @Override
-                    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+                .successHandler((request, response, authentication) -> {
 
-                        //Casted using OAuth2User interface instead of CustomOAuth2User class
-                        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-                        System.out.println(oAuth2User);
+                    //Casted using OAuth2User interface instead of CustomOAuth2User class
+                    OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
+                    System.out.println(oAuth2User);
 
-                        oAuth2UserService.processOAuthPostLogin(oAuth2User.getAttribute("sub"));
+                    oAuth2UserService.processOAuthPostLogin(oAuth2User.getAttribute("sub"));
 
 
-                        response.sendRedirect("https://erin-frontend.herokuapp.com/");
-                    }
-
+                    response.sendRedirect("https://erin-frontend.herokuapp.com/");
                 })
                 .and()
                 .logout()
@@ -77,17 +73,30 @@ public class SecruityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of(
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedOrigins(List.of(
                 "http://localhost:3000",
                 "https://erin-frontend.herokuapp.com/",
                 "https://erin-frontend.herokuapp.com/"
                 ));
-        configuration.addAllowedHeader("*");
-        configuration.addAllowedMethod("*");
-        configuration.setAllowCredentials(true);
+        config.addAllowedHeader("Content-Type");
+        config.addAllowedHeader("x-xsrf-token");
+        config.addAllowedHeader("Authorization");
+        config.addAllowedHeader("Access-Control-Allow-Headers");
+        config.addAllowedHeader("Origin");
+        config.addAllowedHeader("Accept");
+        config.addAllowedHeader("X-Requested-With");
+        config.addAllowedHeader("Access-Control-Request-Method");
+        config.addAllowedHeader("Access-Control-Request-Headers");
+        config.addAllowedMethod("OPTIONS");
+        config.addAllowedMethod("GET");
+        config.addAllowedMethod("PUT");
+        config.addAllowedMethod("POST");
+        config.addAllowedMethod("DELETE");
+        config.addAllowedMethod("*");
+        config.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
+        source.registerCorsConfiguration("/**", config);
         return source;
     }
 

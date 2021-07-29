@@ -5,10 +5,10 @@ import com.tts.CapstoneApp.Model.User;
 import com.tts.CapstoneApp.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 
 @RestController
@@ -19,9 +19,15 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private OAuth2AuthorizedClientService clientService;
+
+
     @GetMapping("/user")
-    public Map<String, Object> user(@AuthenticationPrincipal OAuth2User principal) {
-        return principal.getAttributes();
+    public OAuth2AuthorizedClient user(@AuthenticationPrincipal OAuth2User principal) {
+//        return principal.getAttributes();
+        OAuth2AuthorizedClient user = clientService.loadAuthorizedClient("google", "principal-name");
+        return user;
     }
 
     @GetMapping("/get")
