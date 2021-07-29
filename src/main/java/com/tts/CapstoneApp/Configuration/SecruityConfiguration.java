@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
@@ -21,7 +22,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Configuration
 @EnableWebSecurity
@@ -35,12 +38,22 @@ public class SecruityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
+        Set<String> googleScopes = new HashSet<>();
+        googleScopes.add(
+                "https://www.googleapis.com/auth/userinfo.email");
+        googleScopes.add(
+                "https://www.googleapis.com/auth/userinfo.profile");
+
+
+        oAuth2UserService.setAccessibleScopes(googleScopes);
+
         http
 
                 .cors()
                 .and()
-                . csrf(c -> c
-                          .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
+                .csrf()
+                .disable()
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers("/console/**").permitAll()
@@ -53,7 +66,7 @@ public class SecruityConfiguration extends WebSecurityConfigurerAdapter {
                 .loginPage("/")
 //                .loginProcessingUrl("/")
                 .userInfoEndpoint()
-                .userService(oAuth2UserService)
+                .oidcUserService(oAuth2UserService)
                 .and()
                 .successHandler((request, response, authentication) -> {
 
@@ -64,7 +77,7 @@ public class SecruityConfiguration extends WebSecurityConfigurerAdapter {
                     oAuth2UserService.processOAuthPostLogin(oAuth2User.getAttribute("sub"));
 
 
-                    response.sendRedirect("https://erin-frontend.herokuapp.com/");
+//                    response.sendRedirect("https://erin-frontend.herokuapp.com/");
                 })
                 .and()
                 .logout()

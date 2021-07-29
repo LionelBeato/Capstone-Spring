@@ -5,10 +5,11 @@ import com.tts.CapstoneApp.Model.User;
 import com.tts.CapstoneApp.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 
 @RestController
@@ -19,22 +20,15 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private OAuth2AuthorizedClientService clientService;
-
-
     @GetMapping("/user")
-    public OAuth2AuthorizedClient user(@AuthenticationPrincipal OAuth2User principal) {
-//        return principal.getAttributes();
-        OAuth2AuthorizedClient user = clientService.loadAuthorizedClient("google", "principal-name");
-        return user;
+    public Map<String, Object> user(@AuthenticationPrincipal OAuth2User principal) {
+        return principal.getAttributes();
     }
 
     @GetMapping("/get")
     public User getUser(String id) {
         return userService.findById(id);
     }
-
 
 //    @PostMapping("/post")
 //    public User addNewUser(@RequestBody User user) {
@@ -68,13 +62,16 @@ public class UserController {
         return userService.findById(id);
     }
 
+    @GetMapping("/oidc-principal")
+    public OidcUser getOidcUserPrincipal(@AuthenticationPrincipal OidcUser principal) {
+        return principal;
+    }
+
     @PostMapping("/favorites")
     public User updateMovies(@AuthenticationPrincipal OAuth2User principal, @RequestBody User user) {
         String id = principal.getAttribute("sub");
         User foundUser = userService.findById(id);
-
         foundUser.setFavoriteMovies(user.getFavoriteMovies());
-
         return userService.saveUser(foundUser);
 
 
