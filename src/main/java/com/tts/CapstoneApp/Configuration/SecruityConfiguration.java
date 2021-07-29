@@ -51,7 +51,7 @@ public class SecruityConfiguration extends WebSecurityConfigurerAdapter {
                 .loginPage("/")
 //                .loginProcessingUrl("/")
                 .userInfoEndpoint()
-                .oidcUserService(oAuth2UserService)
+                .userService(oAuth2UserService)
                 .and()
                 .successHandler(new AuthenticationSuccessHandler() {
                     @Override
