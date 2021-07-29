@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -38,7 +39,8 @@ public class SecruityConfiguration extends WebSecurityConfigurerAdapter {
 
                 .cors()
                 .and()
-//                .csrf().disable()
+                . csrf(c -> c
+                          .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers("/console/**").permitAll()
@@ -99,6 +101,7 @@ public class SecruityConfiguration extends WebSecurityConfigurerAdapter {
         source.registerCorsConfiguration("/**", config);
         return source;
     }
+
 
 }
 
