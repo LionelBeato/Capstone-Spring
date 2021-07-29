@@ -56,14 +56,14 @@ public class UserController {
 
     @GetMapping("/login")
     public User getLoggedInUser(@AuthenticationPrincipal OAuth2User principal) {
-        String id = principal.getAttribute("sub");
+        String id = principal.getAttribute("id");
 
         return userService.findById(id);
     }
 
     @PostMapping("/favorites")
     public User updateMovies(@AuthenticationPrincipal OAuth2User principal, @RequestBody User user) {
-        String id = principal.getAttribute("sub");
+        String id = principal.getAttribute("id");
         User foundUser = userService.findById(id);
 
         foundUser.setFavoriteMovies(user.getFavoriteMovies());
