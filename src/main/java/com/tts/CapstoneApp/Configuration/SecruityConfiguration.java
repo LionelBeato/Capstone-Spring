@@ -19,6 +19,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -75,9 +76,7 @@ public class SecruityConfiguration extends WebSecurityConfigurerAdapter {
                     System.out.println(oAuth2User);
 
                     oAuth2UserService.processOAuthPostLogin(oAuth2User.getAttribute("sub"));
-
-
-//                    response.sendRedirect("https://erin-frontend.herokuapp.com/");
+                    response.sendRedirect("https://erin-frontend.herokuapp.com/");
                 })
                 .and()
                 .logout()
