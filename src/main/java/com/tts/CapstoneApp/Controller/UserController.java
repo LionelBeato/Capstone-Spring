@@ -56,6 +56,7 @@ public class UserController {
 
     @GetMapping("/login")
     public User getLoggedInUser(@AuthenticationPrincipal OAuth2User principal) {
+        System.out.println("this is my principal: " + principal);
         String id = principal.getAttribute("sub");
 
         return userService.findById(id);
