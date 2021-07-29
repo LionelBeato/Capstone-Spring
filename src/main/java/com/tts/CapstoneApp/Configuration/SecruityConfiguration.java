@@ -51,7 +51,7 @@ public class SecruityConfiguration extends WebSecurityConfigurerAdapter {
                 .loginPage("/")
 //                .loginProcessingUrl("/")
                 .userInfoEndpoint()
-                .userService(oAuth2UserService)
+                .oidcUserService(oAuth2UserService)
                 .and()
                 .successHandler(new AuthenticationSuccessHandler() {
                     @Override
@@ -81,7 +81,7 @@ public class SecruityConfiguration extends WebSecurityConfigurerAdapter {
         configuration.setAllowedOrigins(List.of(
                 "http://localhost:3000",
                 "https://erin-frontend.herokuapp.com/",
-                "http://erin-frontend.herokuapp.com/"
+                "https://erin-frontend.herokuapp.com/"
                 ));
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("*");
