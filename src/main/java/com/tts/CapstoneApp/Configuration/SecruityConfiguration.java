@@ -64,13 +64,13 @@ public class SecruityConfiguration extends WebSecurityConfigurerAdapter {
                         oAuth2UserService.processOAuthPostLogin(oAuth2User.getAttribute("sub"));
 
 
-                        response.sendRedirect("http://localhost:3000/");
+                        response.sendRedirect("https://erin-spring-backend.herokuapp.com");
                     }
 
                 })
                 .and()
                 .logout()
-                .logoutSuccessUrl("http://localhost:3000/");
+                .logoutSuccessUrl("https://erin-spring-backend.herokuapp.com");
 
 
     }
@@ -78,7 +78,7 @@ public class SecruityConfiguration extends WebSecurityConfigurerAdapter {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:3000"));
+        configuration.setAllowedOrigins(List.of("http://localhost:3000", "https://erin-spring-backend.herokuapp.com"));
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("*");
         configuration.setAllowCredentials(true);
