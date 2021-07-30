@@ -76,7 +76,7 @@ public class SecruityConfiguration extends WebSecurityConfigurerAdapter {
                     System.out.println(oAuth2User);
 
                     oAuth2UserService.processOAuthPostLogin(oAuth2User.getAttribute("sub"));
-                    response.sendRedirect("https://erin-frontend.herokuapp.com/");
+//                    response.sendRedirect("https://erin-frontend.herokuapp.com/");
                 })
                 .and()
                 .logout()
@@ -93,20 +93,7 @@ public class SecruityConfiguration extends WebSecurityConfigurerAdapter {
                 "https://erin-frontend.herokuapp.com/",
                 "https://erin-frontend.herokuapp.com/"
                 ));
-        config.addAllowedHeader("Content-Type");
-        config.addAllowedHeader("x-xsrf-token");
-        config.addAllowedHeader("Authorization");
-        config.addAllowedHeader("Access-Control-Allow-Headers");
-        config.addAllowedHeader("Origin");
-        config.addAllowedHeader("Accept");
-        config.addAllowedHeader("X-Requested-With");
-        config.addAllowedHeader("Access-Control-Request-Method");
-        config.addAllowedHeader("Access-Control-Request-Headers");
-        config.addAllowedMethod("OPTIONS");
-        config.addAllowedMethod("GET");
-        config.addAllowedMethod("PUT");
-        config.addAllowedMethod("POST");
-        config.addAllowedMethod("DELETE");
+        config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         config.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
