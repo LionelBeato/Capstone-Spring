@@ -56,21 +56,20 @@ public class UserController {
         return userService.saveUser(foundUser);
     }
 
-    @PostMapping("/login")
-    public User getLoggedInUser(OidcUser principal) {
+    @GetMapping("/login")
+    public User getLoggedInUser(@AuthenticationPrincipal OAuth2User principal) {
         System.out.println("this is my principal: " + principal);
         String id = principal.getAttribute("sub");
-
         return userService.findById(id);
     }
 
-    @GetMapping("/jwt")
-    public User getuserThroughJwt(@AuthenticationPrincipal Jwt jwt) {
-        System.out.println("this is my principal: " + jwt);
-        String id = jwt.getId();
-
-        return userService.findById(id);
-    }
+//    @GetMapping("/jwt")
+//    public User getuserThroughJwt(@AuthenticationPrincipal Jwt jwt) {
+//        System.out.println("this is my principal: " + jwt);
+//        String id = jwt.getId();
+//
+//        return userService.findById(id);
+//    }
 
     @GetMapping("/oidc-principal")
     public OidcIdToken getOidcUserPrincipal(@AuthenticationPrincipal OidcUser principal) {
@@ -83,8 +82,6 @@ public class UserController {
         User foundUser = userService.findById(id);
         foundUser.setFavoriteMovies(user.getFavoriteMovies());
         return userService.saveUser(foundUser);
-
-
     }
 
 

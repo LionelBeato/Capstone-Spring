@@ -3,6 +3,7 @@ package com.tts.CapstoneApp.Configuration;
 import com.tts.CapstoneApp.Repository.UserRepository;
 import com.tts.CapstoneApp.Service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -31,6 +32,9 @@ import java.util.Set;
 @EnableWebSecurity
 public class SecruityConfiguration extends WebSecurityConfigurerAdapter {
 
+//    @Value("project.frontend.url")
+    String frontEndUrl = "http://localhost:3000";
+
     @Autowired
     private UserServiceImpl oAuth2UserService;
 
@@ -40,14 +44,14 @@ public class SecruityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        Set<String> googleScopes = new HashSet<>();
-        googleScopes.add(
-                "https://www.googleapis.com/auth/userinfo.email");
-        googleScopes.add(
-                "https://www.googleapis.com/auth/userinfo.profile");
-
-
-        oAuth2UserService.setAccessibleScopes(googleScopes);
+//        Set<String> googleScopes = new HashSet<>();
+//        googleScopes.add(
+//                "https://www.googleapis.com/auth/userinfo.email");
+//        googleScopes.add(
+//                "https://www.googleapis.com/auth/userinfo.profile");
+//
+//
+//        oAuth2UserService.setAccessibleScopes(googleScopes);
 
         http
 
@@ -67,7 +71,7 @@ public class SecruityConfiguration extends WebSecurityConfigurerAdapter {
                 .loginPage("/")
 //                .loginProcessingUrl("/")
                 .userInfoEndpoint()
-                .oidcUserService(oAuth2UserService)
+                .userService(oAuth2UserService)
                 .and()
                 .successHandler((request, response, authentication) -> {
 
@@ -76,11 +80,12 @@ public class SecruityConfiguration extends WebSecurityConfigurerAdapter {
                     System.out.println(oAuth2User);
 
                     oAuth2UserService.processOAuthPostLogin(oAuth2User.getAttribute("sub"));
-//                    response.sendRedirect("https://erin-frontend.herokuapp.com/");
+                    System.out.print(frontEndUrl);
+                    response.sendRedirect(frontEndUrl);
                 })
                 .and()
                 .logout()
-                .logoutSuccessUrl("https://erin-frontend.herokuapp.com/");
+                .logoutSuccessUrl(frontEndUrl);
 
 
     }
@@ -91,7 +96,8 @@ public class SecruityConfiguration extends WebSecurityConfigurerAdapter {
         config.setAllowedOrigins(List.of(
                 "http://localhost:3000",
                 "https://erin-frontend.herokuapp.com/",
-                "https://erin-frontend.herokuapp.com/"
+                "https://erin-frontend.herokuapp.com/",
+                frontEndUrl
                 ));
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");

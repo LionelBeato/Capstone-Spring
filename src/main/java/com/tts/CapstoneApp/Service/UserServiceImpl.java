@@ -12,7 +12,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserServiceImpl extends OidcUserService implements UserService{
+public class UserServiceImpl extends DefaultOAuth2UserService implements UserService{
 
     @Autowired
     UserRepository userRepository;
