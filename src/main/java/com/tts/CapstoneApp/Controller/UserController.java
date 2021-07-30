@@ -8,6 +8,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -55,10 +56,18 @@ public class UserController {
         return userService.saveUser(foundUser);
     }
 
-    @GetMapping("/login")
-    public User getLoggedInUser(@AuthenticationPrincipal OAuth2User principal) {
+    @PostMapping("/login")
+    public User getLoggedInUser(OidcUser principal) {
         System.out.println("this is my principal: " + principal);
         String id = principal.getAttribute("sub");
+
+        return userService.findById(id);
+    }
+
+    @GetMapping("/jwt")
+    public User getuserThroughJwt(@AuthenticationPrincipal Jwt jwt) {
+        System.out.println("this is my principal: " + jwt);
+        String id = jwt.getId();
 
         return userService.findById(id);
     }
