@@ -35,9 +35,8 @@ jobs:
           
       - name: move into resources
         run: |
-          mv build src/main/resources/static
-          
-         
+          mv build/index.html src/main/resources/static
+     
           
       
       
