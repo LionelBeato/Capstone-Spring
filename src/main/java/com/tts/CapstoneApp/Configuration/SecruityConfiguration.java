@@ -33,7 +33,7 @@ import java.util.Set;
 public class SecruityConfiguration extends WebSecurityConfigurerAdapter {
 
 //    @Value("project.frontend.url")
-    String frontEndUrl = "http://localhost:3000";
+    String frontEndUrl = "/";
 
     @Autowired
     private UserServiceImpl oAuth2UserService;
@@ -61,6 +61,7 @@ public class SecruityConfiguration extends WebSecurityConfigurerAdapter {
                 .disable()
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
+                .antMatchers("/static/**").permitAll()
                 .antMatchers("/console/**").permitAll()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .antMatchers("/users/**").permitAll()
