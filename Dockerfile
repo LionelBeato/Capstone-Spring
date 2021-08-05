@@ -1,12 +1,12 @@
-# FROM node:14 as front
-# ENV PATH /app/node_modules/.bin:$PATH
-# COPY package.json ./
-# COPY package-lock.json ./
-# RUN npm run build
-# RUN ls
-# COPY . ./
-# CMD ["npm", "start"]
-# EXPOSE 3000
+FROM node:14 as front
+ENV PATH /app/node_modules/.bin:$PATH
+COPY package.json ./
+COPY package-lock.json ./
+RUN npm run build
+RUN ls
+COPY . ./
+CMD ["npm", "start"]
+EXPOSE 3000
 
 FROM gradle:jdk11-openj9 AS build
 COPY --chown=gradle:gradle . /home/gradle/src
