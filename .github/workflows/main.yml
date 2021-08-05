@@ -34,11 +34,16 @@ jobs:
           ls
           
       - name: move into resources
-        working-directory: Capstone-Spring
         run: |
-          mv ../build src/main/resources/static
+          mv build/index.html src/main/resources/static
+          ls src/main/resources/static
           
-         
+      - uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "erin-spring-backend"
+          heroku_email: "lionel.beato@gmail.com"
+     
           
       
       
