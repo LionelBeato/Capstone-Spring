@@ -86,7 +86,7 @@ public class UserController {
         return userService.saveUser(foundUser);
     }
 
-    @Value("/")
+    @Value("${server.servlet.context-path}")
     private String contextPath;
 
     @GetMapping("*")
