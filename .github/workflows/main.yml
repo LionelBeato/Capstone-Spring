@@ -35,7 +35,7 @@ jobs:
           
       - name: move into resources
         run: |
-          mv build/index.html src/main/resources/static
+          mv build/* src/main/resources/static
           ls src/main/resources/static
           
       - uses: akhileshns/heroku-deploy@v3.12.12
