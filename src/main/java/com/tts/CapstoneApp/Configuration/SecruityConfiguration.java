@@ -18,6 +18,8 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -30,7 +32,7 @@ import java.util.Set;
 
 @Configuration
 @EnableWebSecurity
-public class SecruityConfiguration extends WebSecurityConfigurerAdapter {
+public class SecruityConfiguration extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
 
 //    @Value("project.frontend.url")
     String frontEndUrl = "/";
@@ -107,6 +109,15 @@ public class SecruityConfiguration extends WebSecurityConfigurerAdapter {
         source.registerCorsConfiguration("/**", config);
         return source;
     }
+
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/favorites").setViewName("index");
+        registry.addViewController("/search").setViewName("index");
+
+    }
+
+
 
 
 }
