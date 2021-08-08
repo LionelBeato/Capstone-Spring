@@ -95,4 +95,10 @@ public class UserController {
         return new ModelAndView("index", model);
     }
 
+    @GetMapping("/error")
+    public ModelAndView errorPage(Map<String, Object> model) {
+        model.put("contextPath", contextPath);
+        return new ModelAndView("index", model);
+    }
+
 }
