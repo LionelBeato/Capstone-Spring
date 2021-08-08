@@ -32,7 +32,7 @@ import java.util.Set;
 
 @Configuration
 @EnableWebSecurity
-public class SecruityConfiguration extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
+public class SecruityConfiguration extends WebSecurityConfigurerAdapter {
 
 //    @Value("project.frontend.url")
     String frontEndUrl = "/";
@@ -110,12 +110,7 @@ public class SecruityConfiguration extends WebSecurityConfigurerAdapter implemen
         return source;
     }
 
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/favorites").setViewName("index");
-        registry.addViewController("/search").setViewName("index");
 
-    }
 
 
 

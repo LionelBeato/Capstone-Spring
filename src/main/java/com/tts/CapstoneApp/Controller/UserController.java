@@ -4,12 +4,14 @@ package com.tts.CapstoneApp.Controller;
 import com.tts.CapstoneApp.Model.User;
 import com.tts.CapstoneApp.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Map;
 
@@ -84,7 +86,13 @@ public class UserController {
         return userService.saveUser(foundUser);
     }
 
+    @Value("/")
+    private String contextPath;
 
-
+    @GetMapping("*")
+    public ModelAndView defaultPage(Map<String, Object> model) {
+        model.put("contextPath", contextPath);
+        return new ModelAndView("index", model);
+    }
 
 }
