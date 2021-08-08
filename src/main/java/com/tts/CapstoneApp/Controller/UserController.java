@@ -86,19 +86,19 @@ public class UserController {
         return userService.saveUser(foundUser);
     }
 
-    @Value("${server.servlet.context-path}")
-    private String contextPath;
-
-    @GetMapping("*")
-    public ModelAndView defaultPage(Map<String, Object> model) {
-        model.put("contextPath", contextPath);
-        return new ModelAndView("index", model);
-    }
-
-    @GetMapping("/error")
-    public ModelAndView errorPage(Map<String, Object> model) {
-        model.put("contextPath", contextPath);
-        return new ModelAndView("index", model);
-    }
+//    @Value("${server.servlet.context-path}")
+//    private String contextPath;
+//
+//    @GetMapping("*")
+//    public ModelAndView defaultPage(Map<String, Object> model) {
+//        model.put("contextPath", contextPath);
+//        return new ModelAndView("index", model);
+//    }
+//
+//    @GetMapping("/error")
+//    public ModelAndView errorPage(Map<String, Object> model) {
+//        model.put("contextPath", contextPath);
+//        return new ModelAndView("index", model);
+//    }
 
 }
